@@ -3,6 +3,7 @@
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 import { BookingExperience } from "@/components/booking/BookingExperience";
+import { GrowthExperience } from "@/components/growth/GrowthExperience";
 import { OperationsExperience } from "@/components/operations/OperationsExperience";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { SceneShell } from "@/components/vision/SceneShell";
@@ -18,7 +19,9 @@ type ExperienceView =
   | "pullback"
   | "operations-entry"
   | "operations"
-  | "growth";
+  | "growth-entry"
+  | "growth"
+  | "roadmap";
 
 export function BookingExperienceScene({
   active,
@@ -86,12 +89,50 @@ export function BookingExperienceScene({
         <h2 className="visually-hidden" id="operations-product-title" ref={internalHeading} tabIndex={-1}>
           Owner Command Center concept
         </h2>
-        <OperationsExperience onComplete={() => setView("growth")} />
+        <OperationsExperience onComplete={() => setView("growth-entry")} />
       </SceneShell>
     );
   }
 
   if (view === "growth") {
+    return (
+      <SceneShell className="booking-experience-scene growth-experience-scene" labelledBy="growth-product-title">
+        <h2 className="visually-hidden" id="growth-product-title" ref={internalHeading} tabIndex={-1}>
+          Growth Opportunities concept
+        </h2>
+        <GrowthExperience onComplete={() => setView("roadmap")} />
+      </SceneShell>
+    );
+  }
+
+  if (view === "roadmap") {
+    return (
+      <SceneShell className="booking-experience-scene roadmap-placeholder" labelledBy="roadmap-title">
+        <div className="roadmap-placeholder__content">
+          <p className="eyebrow">A Realistic Way Forward</p>
+          <h2 className="scene-title" id="roadmap-title" ref={internalHeading} tabIndex={-1}>
+            Build the Right Things.
+            <br />
+            In the Right Order.
+          </h2>
+          <p className="lead-copy">
+            Start with the customer foundation, connect the operation, then expand
+            only where the business sees real evidence and opportunity.
+          </p>
+          <p className="stage-note">Phased roadmap coming in the next build.</p>
+        </div>
+        <div className="roadmap-placeholder__phases" aria-hidden="true">
+          <span><strong>01</strong>Foundation</span>
+          <i />
+          <span><strong>02</strong>Operations</span>
+          <i />
+          <span><strong>03</strong>Expansion</span>
+        </div>
+      </SceneShell>
+    );
+  }
+
+  if (view === "growth-entry") {
     return (
       <SceneShell className="booking-experience-scene growth-placeholder" labelledBy="growth-title">
         <div className="growth-placeholder__content">
@@ -105,7 +146,12 @@ export function BookingExperienceScene({
             Partnerships, recurring transportation, business accounts, and new
             service lines can grow from the same connected foundation.
           </p>
-          <p className="stage-note">Growth opportunities coming in the next build.</p>
+          <PremiumButton onClick={() => setView("growth")}>
+            Explore Growth Opportunities
+          </PremiumButton>
+          <p className="booking-entry__note">
+            Strategy concepts only · Every opportunity requires owner discovery
+          </p>
         </div>
         <div className="growth-placeholder__orbit" aria-hidden="true">
           <span>Airport</span>

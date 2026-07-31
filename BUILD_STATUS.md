@@ -565,7 +565,133 @@ the customer experience to complete and transition naturally into Stage 4.
 
 ### Next Build Stage
 
-Build the growth-opportunity sequence: airport and event transportation,
-hospitality and referral partnerships, recurring rides, corporate accounts,
-medical transportation, and business billing. Keep those opportunities framed
-as options to evaluate with the owner rather than guaranteed recommendations.
+At Stage 4 completion, the growth-opportunity sequence remained the next build
+stage. The subsequent Stage 5 record below supersedes that state.
+
+---
+
+## Build Stage 5 — Growth Opportunities Concept
+
+Status: complete and validated at the implementation level.
+
+### What Was Built
+
+- A cinematic transition from the Owner Command Center into the growth vision
+- A dedicated Stage 5 entry that frames growth as a connected opportunity, not
+  a guaranteed outcome
+- An interactive opportunity studio with two guided steps:
+  1. Opportunity Portfolio
+  2. Discovery Shortlist
+- A Stage 6 roadmap placeholder that continues the presentation without
+  prematurely building the phased roadmap
+
+### Opportunity Portfolio
+
+The portfolio organizes six concepts into three strategic lanes:
+
+- Demand
+  - Airport transportation
+  - Events and weddings
+- Partnerships
+  - Hotel and hospitality partners
+  - Local referral network
+- Accounts
+  - Corporate transportation accounts
+  - Medical and recurring rides
+
+Each concept includes:
+
+- The potential audience
+- A concise customer or partner promise
+- A controlled description of how it could operate
+- Supporting capability concepts
+- Questions that must be answered before recommending the opportunity
+- A possible small first experiment
+
+No revenue, booking-volume, market-size, or profitability projections are
+shown.
+
+### Discovery Shortlist
+
+The owner can:
+
+- Filter concepts by demand, partnership, or account lane
+- Select an opportunity to inspect its operating model
+- Add or remove concepts from a local shortlist
+- Review the shortlist as a focused discovery agenda
+- See how selected concepts distribute across the three strategy lanes
+- Use an operational-fit, customer-evidence, economics, and experiment
+  framework before moving an idea toward implementation
+
+Shortlist changes remain in React component memory for the current browser
+session. Nothing is persisted or transmitted.
+
+### Files Created
+
+- `components/growth/growth-model.ts`
+- `components/growth/GrowthUI.tsx`
+- `components/growth/GrowthPortfolio.tsx`
+- `components/growth/GrowthSummary.tsx`
+- `components/growth/GrowthExperience.tsx`
+
+### Files Modified
+
+- `components/scenes/BookingExperienceScene.tsx`
+- `app/globals.css`
+- `README.md`
+- `BUILD_STATUS.md`
+
+### Accessibility and Responsive Behavior
+
+- Growth steps use semantic navigation and current-step state.
+- Opportunity filters and selected concepts expose pressed state.
+- Shortlist controls expose pressed state and descriptive removal labels.
+- Shortlist changes are announced through a polite live region.
+- Focus moves to the active portfolio or summary heading.
+- All interactive controls retain visible keyboard focus treatment.
+- Mobile layouts use horizontally scrollable filters, full-width actions, and
+  a single-column strategic reading flow from 320px upward.
+- Tablet and desktop layouts progressively introduce multi-column concept
+  grids and a sticky opportunity-detail panel.
+- Reduced-motion preferences remove view-entry animation without removing
+  content or interaction.
+
+### Dependencies
+
+No dependencies were added. Stage 5 uses the existing React, Next.js, and CSS
+foundations.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- `npm run build` — passed using native Next.js 16 and Turbopack
+- Native production output generated successfully under `.next/`
+- `node --test tests/rendered-html.test.mjs` — passed, 1 test
+- `git diff --check` — passed with no whitespace errors
+
+The in-app browser was not used for the final interaction pass because its
+security policy rejected access to the local production URL. The completed
+Stage 5 experience was instead validated through strict TypeScript, ESLint,
+the native production build, and the existing rendered-output test. Interactive
+mobile and desktop browser QA remains the first deployment-preview check.
+
+### Explicit Non-Integrations
+
+- No live airport or flight service added
+- No event or wedding booking functionality added
+- No partner portal or referral program added
+- No corporate account functionality added
+- No medical data collected or persisted
+- No recurring ride scheduler added
+- No invoicing or business billing added
+- No promotions, credits, or incentive logic added
+- No revenue forecasts or market claims added
+- No backend, database, authentication, or customer records added
+
+### Next Build Stage
+
+Build the phased roadmap sequence. It should connect the completed customer,
+operations, and growth concepts into a realistic Foundation → Operations →
+Expansion plan, keep production dependencies sequenced responsibly, and make
+clear that final scope depends on owner discovery.
