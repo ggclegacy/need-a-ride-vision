@@ -9,7 +9,7 @@ import {
 } from "./growth-model";
 
 interface GrowthExperienceProps {
-  onComplete: () => void;
+  onComplete: (shortlist: readonly string[]) => void;
 }
 
 type GrowthView = "portfolio" | "summary";
@@ -99,7 +99,7 @@ export function GrowthExperience({ onComplete }: GrowthExperienceProps) {
         ) : (
           <GrowthSummary
             onBack={() => setView("portfolio")}
-            onComplete={onComplete}
+            onComplete={() => onComplete(shortlist)}
             onRemove={toggleShortlist}
             shortlist={shortlist}
           />

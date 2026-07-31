@@ -58,7 +58,7 @@ export function RoadmapReadiness({
                     <p>{decision.whyItMatters}</p>
                   </div>
                   <button
-                    aria-label={`${selected ? "Remove" : "Add"} ${roadmapPhaseLabel(decision.phase)} question ${selected ? "from" : "to"} discovery agenda`}
+                    aria-label={`${selected ? "Remove" : "Add"} “${decision.prompt}” ${selected ? "from" : "to"} the ${roadmapPhaseLabel(decision.phase)} discovery agenda`}
                     aria-pressed={selected}
                     className={selected ? "roadmap-decision-list__selected" : ""}
                     onClick={() => onToggleAgenda(decision.id)}

@@ -22,8 +22,8 @@ export interface BookingData {
 }
 
 export const INITIAL_BOOKING_DATA: BookingData = {
-  pickup: "",
-  destination: "",
+  pickup: "200 Terminal Drive, Lafayette, LA 70508",
+  destination: "101 West Vermilion Street, Lafayette, LA 70501",
   additionalStop: false,
   stopLocation: "",
   rideTiming: "now",
@@ -40,8 +40,8 @@ export const INITIAL_BOOKING_DATA: BookingData = {
 };
 
 export const DEMO_LOCATIONS = [
-  "Downtown Lafayette",
-  "Lafayette Regional Airport",
+  "101 West Vermilion Street, Lafayette, LA 70501",
+  "200 Terminal Drive, Lafayette, LA 70508",
   "UL Lafayette",
   "Youngsville Sports Complex",
   "River Ranch",

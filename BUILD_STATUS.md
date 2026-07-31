@@ -691,7 +691,296 @@ mobile and desktop browser QA remains the first deployment-preview check.
 
 ### Next Build Stage
 
-Build the phased roadmap sequence. It should connect the completed customer,
-operations, and growth concepts into a realistic Foundation → Operations →
-Expansion plan, keep production dependencies sequenced responsibly, and make
-clear that final scope depends on owner discovery.
+At Stage 5 completion, the phased roadmap remained the next build stage. The
+subsequent Stage 6 record below supersedes that state.
+
+---
+
+## Build Stage 6 — Phased Roadmap Concept
+
+Status: complete and validated at the implementation level.
+
+### What Was Built
+
+- A dedicated Stage 6 roadmap product experience with two guided views:
+  1. Phased Roadmap
+  2. Decision Gates
+- A dependency-aware Foundation → Operations → Expansion sequence
+- Three milestones inside each phase with clear capabilities and unlocks
+- A phase-specific decision gate that must be satisfied before moving forward
+- Continuity from Stage 5: the locally selected growth shortlist appears as
+  the candidate set for the controlled Expansion pilot
+- A local discovery-agenda builder for owner questions
+- A Stage 7 owner-discovery placeholder that concludes the current build
+  without collecting or submitting information
+
+### Phased Build Sequence
+
+The roadmap intentionally avoids invented calendar dates. It establishes an
+order of work instead:
+
+- Foundation — build first
+  - Service blueprint
+  - Customer booking core
+  - Payment and communication setup
+- Operations — connect next
+  - Ride system of record
+  - Scheduling and dispatch rhythm
+  - Owner visibility
+- Expansion — prove before scale
+  - Choose one pilot
+  - Build the minimum channel
+  - Learn, then decide
+
+Each milestone explains what could be included, what it unlocks, and why the
+next phase depends on the work before it. Square, messaging, data migration,
+dispatch, reporting, and growth-channel capabilities remain concepts rather
+than connected services.
+
+### Owner Decision Gates
+
+The owner can add or remove six questions from a local discovery agenda across:
+
+- Initial service boundaries
+- Pricing and payment rules
+- Team responsibilities
+- Existing source data
+- Growth-pilot priority
+- Evidence required to refine, scale, pause, or end a pilot
+
+Agenda changes remain in React component memory for the current browser
+session. Nothing is persisted, transmitted, or submitted.
+
+### Files Created
+
+- `components/roadmap/roadmap-model.ts`
+- `components/roadmap/RoadmapUI.tsx`
+- `components/roadmap/RoadmapSequence.tsx`
+- `components/roadmap/RoadmapReadiness.tsx`
+- `components/roadmap/RoadmapExperience.tsx`
+
+### Files Modified
+
+- `components/growth/GrowthExperience.tsx`
+- `components/scenes/BookingExperienceScene.tsx`
+- `app/globals.css`
+- `README.md`
+- `BUILD_STATUS.md`
+
+### State and Data Boundaries
+
+- The Stage 5 shortlist is passed directly into Stage 6 in local component
+  state; it is not persisted.
+- The discovery agenda uses local React state only.
+- No dates, budgets, staffing levels, vendor commitments, or delivery promises
+  are presented.
+- No discovery answers are collected in Stage 6.
+- The owner-discovery ending is a placeholder and does not submit information.
+
+### Accessibility and Responsive Behavior
+
+- Roadmap views use semantic navigation and current-step state.
+- Phase cards and agenda controls expose pressed state.
+- Agenda changes are announced through a polite live region.
+- Focus moves to the active roadmap-view heading.
+- Milestones use ordered, semantic phase structure and descriptive regions.
+- Every interactive control retains visible keyboard focus treatment.
+- Mobile layouts use a vertical phase path, single-column milestone reading,
+  full-width actions, and compact decision controls from 320px upward.
+- Tablet and desktop layouts progressively introduce the horizontal phase
+  sequence, three-column milestones, and a sticky roadmap-principles panel.
+- Reduced-motion preferences remove view-entry and hover motion without
+  removing content or interaction.
+
+### Dependencies
+
+No dependencies were added. Stage 6 uses the existing React, Next.js, and CSS
+foundations.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- `git diff --check` — passed with no whitespace errors
+- `npm run build` — passed using native Next.js 16 and Turbopack
+- Native production output generated successfully under `.next/`
+- `node --test tests/rendered-html.test.mjs` — passed, 1 test
+
+The in-app browser remains unavailable for local interaction testing because
+its security policy rejected the local production URL during Stage 5. Stage 6
+was validated through strict TypeScript, ESLint, the native production build,
+and the production rendered-output test. Interactive mobile and desktop QA
+remains the first deployment-preview check.
+
+### Explicit Non-Integrations
+
+- No project-management or scheduling system added
+- No delivery dates, sprint estimates, budgets, or staffing commitments added
+- No Square API, payment processing, or financial reporting added
+- No email, SMS, or automated customer communication added
+- No database, authentication, migration, or owner account added
+- No live dispatch, driver tracking, mapping, or GPS added
+- No growth pilot, partner workflow, account system, or recurring scheduler added
+- No analytics, revenue projections, or growth guarantees added
+- No owner intake form, file upload, or information submission added
+
+### Next Build Stage
+
+Build the Phase 2 owner-discovery intake. It should convert the roadmap's
+decision gates into a clear, saveable discovery process, protect sensitive
+business information, and avoid promising final scope or timing before the
+owner's answers are reviewed.
+
+---
+
+## Build Stage 7 — Operations Platform Reveal
+
+Status: complete and validated at the implementation level.
+
+### What Was Built
+
+- A cinematic transition from the completed Owner Command Center into a deeper
+  Need A Ride Operations Platform concept
+- One connected product shell with six guided modules:
+  1. Driver App
+  2. Fleet Intelligence
+  3. Dispatch Command
+  4. Customer CRM
+  5. Business Intelligence
+  6. Future Integrations
+- Local, interactive concept state for driver ride status, vehicle selection,
+  dispatch ride selection, customer selection, and future-module selection
+- A direct continuation from the Operations Platform into the existing Growth
+  Opportunities and Phased Roadmap experiences
+
+### Driver App Concept
+
+- Mobile-first driver workspace with the current assignment, passenger and
+  luggage context, pickup note, route, and assigned vehicle
+- Local concept status progression from Accepted through Passenger onboard
+- Driver day schedule, earnings preview, on-time preview, and weekly ride
+  preview
+- A concise view of the information dispatch can hand to a driver
+
+All driver names, routes, performance values, and earnings are fictional
+concept data. No driver account, navigation, messaging, location service, or
+status update is connected.
+
+### Fleet Intelligence Concept
+
+- Selectable vehicle cards with readiness states and maintenance signals
+- Mileage, assigned-driver, next-service, inspection, registration, and
+  insurance reminder concepts
+- Service-window progress indicators and vehicle service history
+- Digital pre-shift inspection preview for fuel, tires, warning lights,
+  interior, exterior, and photos
+
+All vehicles, mileage, dates, service events, compliance reminders, and driver
+assignments are illustrative. No fleet record or reminder is stored.
+
+### Dispatch Command Concept
+
+- A premium ride timeline with sample customers, routes, assignments, vehicles,
+  and ride states
+- Selectable ride-detail view with a customer and driver communication preview
+- Clear visibility into rides needing assignment and future update concepts
+- Explicitly states that messaging and live GPS are not connected
+
+### Customer CRM Concept
+
+- Selectable customer, VIP, hospitality-partner, and business-account profiles
+- Relationship context, concept ride history, service preferences, and private
+  service-note previews
+- Business-account concepts remain discovery items rather than working account
+  or billing systems
+
+### Business Intelligence Concept
+
+- Clearly fictional revenue, ride, repeat-customer, and fleet-utilization
+  indicators
+- Destination-trend and vehicle-utilization visualizations
+- Illustrative repeat-behavior, peak-window, and capacity insights
+- Persistent on-screen disclosure that production analytics must use verified
+  Need A Ride records
+
+No revenue claim, operating benchmark, market projection, or live analytic was
+introduced.
+
+### Future Integrations
+
+The future portfolio clearly labels every module as a future integration and
+explains what must come first:
+
+- Live GPS tracking
+- Flight tracking
+- AI Operations Assistant
+- Corporate Portal
+- Customer Mobile App
+- Advanced Automation
+
+Each concept includes possible benefits and its production dependencies. None
+is described as included in the initial launch.
+
+### Files Created
+
+- `components/platform/platform-model.ts`
+- `components/platform/PlatformUI.tsx`
+- `components/platform/PlatformViews.tsx`
+- `components/platform/PlatformExperience.tsx`
+
+### Files Modified
+
+- `components/scenes/BookingExperienceScene.tsx`
+- `app/globals.css`
+- `README.md`
+- `BUILD_STATUS.md`
+
+### Accessibility and Responsive Behavior
+
+- The operations modules use semantic navigation and current-page state.
+- Selectable vehicles, rides, customers, and future integrations expose pressed
+  state.
+- Local status and module changes are announced through a polite live region.
+- Focus moves to the active module heading.
+- All controls remain keyboard accessible with the project focus treatment.
+- The layout begins as a compact mobile product experience at 320px and
+  progressively introduces multi-column views at tablet and desktop widths.
+- Module navigation remains horizontally scrollable on narrow screens.
+- Reduced-motion preferences remove constellation and view-entry animation
+  while preserving all content and interactions.
+
+### Dependencies
+
+No dependencies were added. Stage 7 uses the existing React, Next.js, and CSS
+foundation.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- `npm run build` — passed using native Next.js 16 and Turbopack
+- Native production output generated successfully under `.next/`
+- `node --test tests/rendered-html.test.mjs` — passed, 1 test
+- `git diff --check` — passed with no whitespace errors
+
+The native production build also completed its own TypeScript validation
+successfully.
+
+### Explicit Non-Integrations
+
+- No backend, database, authentication, or persistence added
+- No real driver app, driver account, earnings, performance, or navigation added
+- No vehicle database, maintenance scheduler, inspection form, service record,
+  document tracking, or reminder delivery added
+- No live dispatch, assignment, GPS, route, map, flight, or messaging service added
+- No customer database, CRM record, VIP record, or business account added
+- No live analytics, revenue reporting, operational reporting, or projections added
+- No AI assistant, corporate portal, customer app, or automation added
+- No existing user changes were discarded, committed, or pushed
+
+### Next Build Stage
+
+The Phase 1 vision now covers the customer, owner, driver, fleet, dispatch,
+customer relationship, analytics, growth, and phased-roadmap story. The next
+major stage remains the Phase 2 owner-discovery intake, unless a dedicated
+Phase 1 closing and presentation-polish pass is preferred first.

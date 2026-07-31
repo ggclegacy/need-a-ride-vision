@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { BookingExperience } from "@/components/booking/BookingExperience";
 import { GrowthExperience } from "@/components/growth/GrowthExperience";
 import { OperationsExperience } from "@/components/operations/OperationsExperience";
+import { PlatformExperience } from "@/components/platform/PlatformExperience";
+import { RoadmapExperience } from "@/components/roadmap/RoadmapExperience";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { SceneShell } from "@/components/vision/SceneShell";
 
@@ -19,15 +21,19 @@ type ExperienceView =
   | "pullback"
   | "operations-entry"
   | "operations"
+  | "platform-entry"
+  | "platform"
   | "growth-entry"
   | "growth"
-  | "roadmap";
+  | "roadmap"
+  | "next-steps";
 
 export function BookingExperienceScene({
   active,
   headingRef,
 }: BookingExperienceSceneProps) {
   const [view, setView] = useState<ExperienceView>("intro");
+  const [priorityOpportunityIds, setPriorityOpportunityIds] = useState<readonly string[]>([]);
   const internalHeading = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -89,7 +95,18 @@ export function BookingExperienceScene({
         <h2 className="visually-hidden" id="operations-product-title" ref={internalHeading} tabIndex={-1}>
           Owner Command Center concept
         </h2>
-        <OperationsExperience onComplete={() => setView("growth-entry")} />
+        <OperationsExperience onComplete={() => setView("platform-entry")} />
+      </SceneShell>
+    );
+  }
+
+  if (view === "platform") {
+    return (
+      <SceneShell className="booking-experience-scene platform-experience-scene" labelledBy="platform-product-title">
+        <h2 className="visually-hidden" id="platform-product-title" ref={internalHeading} tabIndex={-1}>
+          Operations Platform concept
+        </h2>
+        <PlatformExperience onComplete={() => setView("growth-entry")} />
       </SceneShell>
     );
   }
@@ -100,33 +117,57 @@ export function BookingExperienceScene({
         <h2 className="visually-hidden" id="growth-product-title" ref={internalHeading} tabIndex={-1}>
           Growth Opportunities concept
         </h2>
-        <GrowthExperience onComplete={() => setView("roadmap")} />
+        <GrowthExperience
+          onComplete={(shortlist) => {
+            setPriorityOpportunityIds(shortlist);
+            setView("roadmap");
+          }}
+        />
       </SceneShell>
     );
   }
 
   if (view === "roadmap") {
     return (
-      <SceneShell className="booking-experience-scene roadmap-placeholder" labelledBy="roadmap-title">
-        <div className="roadmap-placeholder__content">
-          <p className="eyebrow">A Realistic Way Forward</p>
-          <h2 className="scene-title" id="roadmap-title" ref={internalHeading} tabIndex={-1}>
-            Build the Right Things.
+      <SceneShell className="booking-experience-scene roadmap-experience-scene" labelledBy="roadmap-product-title">
+        <h2 className="visually-hidden" id="roadmap-product-title" ref={internalHeading} tabIndex={-1}>
+          Phased build roadmap concept
+        </h2>
+        <RoadmapExperience
+          onComplete={() => setView("next-steps")}
+          priorityOpportunityIds={priorityOpportunityIds}
+        />
+      </SceneShell>
+    );
+  }
+
+  if (view === "next-steps") {
+    return (
+      <SceneShell className="booking-experience-scene roadmap-next-steps" labelledBy="next-steps-title">
+        <div className="roadmap-next-steps__content">
+          <p className="eyebrow">Vision to Action</p>
+          <h2 className="scene-title" id="next-steps-title" ref={internalHeading} tabIndex={-1}>
+            The Next Step
             <br />
-            In the Right Order.
+            Is Discovery.
           </h2>
           <p className="lead-copy">
-            Start with the customer foundation, connect the operation, then expand
-            only where the business sees real evidence and opportunity.
+            Confirm the operating truth, decide the first release boundary, and turn
+            this vision into a roadmap Need A Ride can own.
           </p>
-          <p className="stage-note">Phased roadmap coming in the next build.</p>
+          <PremiumButton onClick={() => setView("roadmap")}>
+            Return to the Roadmap
+          </PremiumButton>
+          <p className="booking-entry__note">
+            Phase 2 owner intake remains a future build · Nothing has been submitted
+          </p>
         </div>
-        <div className="roadmap-placeholder__phases" aria-hidden="true">
-          <span><strong>01</strong>Foundation</span>
+        <div className="roadmap-next-steps__signal" aria-hidden="true">
+          <span>Discover</span>
           <i />
-          <span><strong>02</strong>Operations</span>
+          <span>Define</span>
           <i />
-          <span><strong>03</strong>Expansion</span>
+          <span>Build</span>
         </div>
       </SceneShell>
     );
@@ -158,6 +199,41 @@ export function BookingExperienceScene({
           <span>Hotels</span>
           <span>Corporate</span>
           <span>Events</span>
+        </div>
+      </SceneShell>
+    );
+  }
+
+  if (view === "platform-entry") {
+    return (
+      <SceneShell className="booking-experience-scene platform-entry" labelledBy="platform-entry-title">
+        <div className="platform-entry__content">
+          <p className="eyebrow">Beyond the Dashboard</p>
+          <h2 className="scene-title" id="platform-entry-title" ref={internalHeading} tabIndex={-1}>
+            The Operating System
+            <br />
+            Behind Every Ride.
+          </h2>
+          <p className="lead-copy">
+            Connect the driver, the fleet, dispatch, customer relationships, and
+            business intelligence without losing the personal service at the center.
+          </p>
+          <PremiumButton onClick={() => setView("platform")}>
+            Explore the Operations Platform
+          </PremiumButton>
+          <p className="booking-entry__note">
+            Six concept modules · Local sample data only · No live systems connected
+          </p>
+        </div>
+        <div className="platform-entry__constellation" aria-hidden="true">
+          <span className="platform-entry__center">NAR</span>
+          <i />
+          <span>Drivers</span>
+          <span>Fleet</span>
+          <span>Dispatch</span>
+          <span>Customers</span>
+          <span>Analytics</span>
+          <span>Future</span>
         </div>
       </SceneShell>
     );
