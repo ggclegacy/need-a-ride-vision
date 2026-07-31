@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrivalScene } from "@/components/scenes/ArrivalScene";
-import { VisionPlaceholderScene } from "@/components/scenes/VisionPlaceholderScene";
+import { BookingExperienceScene } from "@/components/scenes/BookingExperienceScene";
 import { EnvironmentalBackground } from "@/components/vision/EnvironmentalBackground";
 import { SceneTransition } from "@/components/vision/SceneTransition";
 import { VisionProgress } from "@/components/vision/VisionProgress";
@@ -12,7 +12,7 @@ import { focusDelay } from "@/lib/motion";
 export function VisionExperience() {
   const [activeScene, setActiveScene] = useState(0);
   const arrivalHeading = useRef<HTMLHeadingElement>(null);
-  const opportunityHeading = useRef<HTMLHeadingElement>(null);
+  const customerExperienceHeading = useRef<HTMLHeadingElement>(null);
 
   const moveToScene = useCallback((nextScene: number) => {
     const boundedScene = Math.max(
@@ -24,7 +24,9 @@ export function VisionExperience() {
 
     window.setTimeout(() => {
       const heading =
-        boundedScene === 0 ? arrivalHeading.current : opportunityHeading.current;
+        boundedScene === 0
+          ? arrivalHeading.current
+          : customerExperienceHeading.current;
       heading?.focus({ preventScroll: true });
     }, focusDelay);
   }, []);
@@ -91,9 +93,9 @@ export function VisionExperience() {
       </SceneTransition>
 
       <SceneTransition active={activeScene === 1}>
-        <VisionPlaceholderScene
+        <BookingExperienceScene
           active={activeScene === 1}
-          headingRef={opportunityHeading}
+          headingRef={customerExperienceHeading}
         />
       </SceneTransition>
 

@@ -125,3 +125,447 @@ Build the full “Business Today” and “Future Customer Journey” sequence:
 The interactive quote concept, Square payment vision, dashboards, growth
 opportunities, roadmap, and Phase 2 intake should remain out of scope until
 their designated build stages.
+
+---
+
+## Deployment Repair — Native Next.js / Vercel
+
+Status: complete and validated.
+
+### Root Cause
+
+Vercel correctly detected the repository's `next` dependency and expected the
+standard `.next` production output. However, the package lifecycle scripts
+overrode native Next.js with `vinext dev`, `vinext build`, and `vinext start`.
+That build used Vite and emitted Cloudflare/Sites output under `dist` instead of
+the `.next` directory required by Vercel's Next.js deployment adapter.
+
+The mismatch was introduced by the original vinext/Vite/Cloudflare Sites
+scaffold. The application itself did not import vinext and did not require that
+runtime.
+
+### Configuration Discovered
+
+- `package.json` ran every lifecycle command through vinext.
+- `vite.config.ts` registered vinext, the Cloudflare Vite plugin, and a
+  Sites-specific packaging plugin.
+- `worker/index.ts` used vinext's App Router and image-optimization handlers.
+- `build/sites-vite-plugin.ts` copied Sites metadata into `dist`.
+- `.openai/hosting.json` identified the previous Sites deployment project.
+- No `vercel.json` existed, so there was no Vercel-level build or output
+  override to remove.
+- `next.config.ts` was already a valid, minimal native Next.js configuration
+  and required no change.
+
+### Files Changed
+
+- `package.json`
+  - Restored native Next.js lifecycle scripts.
+  - Removed vinext/Vite/Cloudflare-only development dependencies.
+- `package-lock.json`
+  - Regenerated with npm to match the repaired dependency tree.
+- `tests/rendered-html.test.mjs`
+  - Replaced the vinext worker import with a production render check against
+    `next start`.
+- `.gitignore`
+  - Retained standard Next.js, dependency, environment, and Vercel ignores.
+  - Removed obsolete vinext, Vite output, Wrangler, and Sites workspace
+    entries.
+- `BUILD_STATUS.md`
+  - Added this deployment repair record.
+
+### Files Removed
+
+- `.openai/hosting.json`
+- `build/sites-vite-plugin.ts`
+- `vite.config.ts`
+- `worker/index.ts`
+
+These files were deployment scaffolding only. No visual components, scenes,
+copy, styles, or brand assets were changed.
+
+### Dependencies Removed
+
+- `vinext`
+- `vite`
+- `@vitejs/plugin-react`
+- `@vitejs/plugin-rsc`
+- `@cloudflare/vite-plugin`
+- `wrangler`
+- `react-server-dom-webpack`
+
+Npm removed 137 packages from the installed dependency tree while updating the
+lockfile.
+
+### Dependencies Retained
+
+- Next.js 16
+- React 19
+- React DOM 19
+- Tailwind CSS 4 and its PostCSS plugin
+- TypeScript and React/Node type packages
+- ESLint 9 with the Next.js configuration
+
+### Package Scripts After Repair
+
+```json
+{
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "test": "npm run build && node --test tests/rendered-html.test.mjs",
+  "typecheck": "tsc --noEmit",
+  "lint": "eslint ."
+}
+```
+
+### Vercel Configuration
+
+- Framework preset: Next.js
+- Root directory: repository root (`./`)
+- Build command: Vercel default (`next build`)
+- Output directory: no override
+- Install command: package-manager default (`npm install`)
+- `vercel.json`: absent and not required
+
+Vercel can now use normal framework auto-detection without repository-specific
+deployment overrides.
+
+### App and Asset Compatibility
+
+- App Router layouts, pages, metadata, client boundaries, and browser API usage
+  are compatible with native Next.js.
+- `headers()` in `app/layout.tsx` is supported native Next.js dynamic API usage.
+- The logo remains unchanged and resolves from `public/icon.png` through
+  `/icon.png`.
+- The root `icon.png` and all completed vision scenes remain unchanged.
+
+### Environment Variables
+
+No environment variables are required for the current Phase 1 application.
+There are no Square, Google Maps, Supabase, OpenAI, authentication, or backend
+runtime references.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- `npm run build` — passed using native Next.js 16 and Turbopack
+- `node --test tests/rendered-html.test.mjs` — passed, 1 test
+- `.next/` — successfully produced
+
+The production render test starts the native Next.js production server and
+confirms that the existing Need A Ride arrival experience is returned as HTML.
+
+### Deployment Readiness
+
+The repository is prepared for a fresh GitHub-to-Vercel deployment. Generated
+`.next` output remains ignored and must not be committed.
+
+---
+
+## Build Stage 3 — Interactive Booking + Quote + Payment Concept
+
+Status: complete and validated.
+
+### What Was Built
+
+- A cinematic transition from the existing vision presentation into a focused
+  Need A Ride customer product concept
+- A six-step guided experience covering:
+  1. Pickup, destination, and optional stop
+  2. Ride-now or scheduled timing and one-way or round-trip travel
+  3. Passengers, luggage, airport details, stops, and special instructions
+  4. Short processing sequence and deterministic concept estimate
+  5. Preserved-state booking review and controlled payment demonstration
+  6. Confirmation, ride-status timeline, and communication previews
+- An executive pullback that reconnects the product demonstration to the
+  operational vision
+- A Stage 4 placeholder for the future Owner Command Center
+
+The completed Stage 1 arrival, global design tokens, logo treatment, scene
+shell, environmental effects, navigation, motion language, responsiveness, and
+accessibility foundations remain in place.
+
+### Files Created
+
+- `components/booking/booking-model.ts`
+- `components/booking/BookingUI.tsx`
+- `components/booking/LocationStep.tsx`
+- `components/booking/ScheduleStep.tsx`
+- `components/booking/TripDetailsStep.tsx`
+- `components/booking/EstimateStep.tsx`
+- `components/booking/BookingReviewStep.tsx`
+- `components/booking/PaymentConceptStep.tsx`
+- `components/booking/BookingConfirmationStep.tsx`
+- `components/booking/BookingExperience.tsx`
+- `components/scenes/BookingExperienceScene.tsx`
+
+### Files Modified
+
+- `app/globals.css`
+- `components/vision/VisionExperience.tsx`
+- `lib/constants.ts`
+- `tests/rendered-html.test.mjs`
+- `README.md`
+- `BUILD_STATUS.md`
+
+### File Removed
+
+- `components/scenes/VisionPlaceholderScene.tsx`
+
+The removed file was the temporary opportunity placeholder replaced by the
+Stage 3 customer experience.
+
+### Components Added
+
+- `BookingExperience`
+- `BookingProgress`
+- `ChoiceGroup`
+- `RouteVisual`
+- `ConceptBadge`
+- `SummaryList`
+- `BookingActions`
+- `LocationStep`
+- `ScheduleStep`
+- `TripDetailsStep`
+- `EstimateStep`
+- `BookingReviewStep`
+- `PaymentConceptStep`
+- `BookingConfirmationStep`
+- `BookingExperienceScene`
+
+### Demo State Logic
+
+All booking information is held in local React state owned by
+`BookingExperience`. Moving backward or choosing Edit Trip preserves entered
+values for the current browser session. No state is written to local storage,
+cookies, a database, or a remote service.
+
+Location validation requires a pickup and destination, prevents matching
+pickup/destination values, and requires a stop location when the stop option is
+active. Schedule validation progressively requires date/time values only for
+scheduled and round-trip selections.
+
+### Concept Estimate Behavior
+
+`calculateConceptEstimate` is an isolated deterministic function using:
+
+- A fictional `$28` sample base
+- Small sample adjustments for more than two passengers
+- Sample adjustments for larger luggage selections
+- A sample round-trip adjustment
+- A sample airport adjustment
+- A sample additional-stop adjustment
+- A sample scheduled-ride adjustment
+
+The result is consistently labeled `Concept Estimate` or `Concept Total`. The
+interface states that pricing is fictional, identifies distance and travel time
+as sample concept data, and explains that actual pricing rules would be defined
+with Need A Ride during discovery.
+
+### Payment Concept Behavior
+
+- The payment screen uses a controlled masked demo card display.
+- Card number, expiration, CVV, and ZIP values are read-only and are never
+  captured or persisted.
+- Apple Pay and Google Pay are visible only as disabled future
+  device-supported options.
+- The Square reference is explicitly labeled as a concept with no active
+  integration.
+- Completing the demonstration runs a short local sequence:
+  `Securing booking` → `Payment authorized` → `Ride confirmed`.
+- The interface states that no payment will be processed and does not represent
+  real taxes or fees.
+
+### Accessibility and Responsive Behavior
+
+- Every input has a visible label.
+- Grouped choices use fieldsets, legends, and native radio inputs.
+- Quote and confirmation sequences use live regions.
+- Validation messages use readable alert semantics.
+- Focus moves to the active step heading during forward and backward
+  navigation.
+- Controls retain visible keyboard focus states and generous mobile touch
+  targets.
+- Progressive disclosure limits each screen to the relevant controls.
+- Layouts are mobile-first from 320px and expand compositionally for tablet and
+  desktop widths.
+- Reduced-motion preferences remove directional UI animations without removing
+  content or interaction.
+
+### Dependencies
+
+No dependencies were added. The concept uses the existing React, Next.js, and
+CSS foundations.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- Native production build and browser interaction checks are recorded after
+  the final quality pass.
+
+### Known Limitations and Explicit Non-Integrations
+
+- No Square API integration added
+- No Square SDK added
+- No Google Maps integration added
+- No geocoding or route API added
+- No real fare calculation added
+- No backend added
+- No real booking creation added
+- No payment information persisted
+- No customer data persisted
+- No email or SMS sent
+- No driver assignment implemented
+- No authentication or customer accounts added
+- Sample travel time, distance, booking number, and status transitions are
+  controlled concept data
+- At Stage 3 completion, the Stage 4 Owner Command Center remained a
+  placeholder; the subsequent Stage 4 record below supersedes that state
+
+---
+
+## Build Stage 4 — Owner Command Center Concept
+
+Status: complete and validated at the implementation level.
+
+### What Was Built
+
+- An executive transition from the completed customer journey into the
+  operational side of the vision
+- A dedicated Owner Command Center entry scene that clearly labels the
+  experience as a controlled concept
+- A responsive four-part operations product covering:
+  1. Owner overview
+  2. Ride operations
+  3. Drivers and customers
+  4. Payment visibility
+- A growth-opportunity placeholder that creates the handoff to the next build
+  stage
+
+### Owner Overview
+
+The overview brings the fictional operating day into one screen with:
+
+- Sample rides-today, attention, booked-value, and driver metrics
+- A compact ride schedule
+- An owner action queue for unassigned rides and payment follow-up
+- Direct navigation from an overview item into its detailed operations view
+- A concise explanation of how connected data reduces fragmented work
+
+### Ride Operations
+
+The ride board provides a controlled local demonstration of:
+
+- All-rides, needs-attention, and in-progress filters
+- Ride selection and a detailed route/booking panel
+- Driver, payment, category, fare, and status visibility
+- Local-only driver assignment using sample available drivers
+- Local-only status advancement from confirmed through completed
+- Screen-reader announcements when concept ride data changes
+
+All changes remain in component memory for the current browser session. They
+do not create or update a real ride.
+
+### People + Payment Views
+
+The people view demonstrates:
+
+- Driver availability, assigned vehicle, and sample workload
+- Repeat-customer and prospective business-account context
+- The value of retaining ride history outside individual message threads
+
+The payment view demonstrates:
+
+- Fictional collected, deposit, payment-due, and average-ride metrics
+- A sample transaction activity table
+- How Square payment status could appear beside operational records
+- Explicit language that no Square API or financial data is connected
+
+### Files Created
+
+- `components/operations/operations-model.ts`
+- `components/operations/OperationsUI.tsx`
+- `components/operations/OperationsOverview.tsx`
+- `components/operations/RideOperationsView.tsx`
+- `components/operations/PeopleOperationsView.tsx`
+- `components/operations/MoneyOperationsView.tsx`
+- `components/operations/OperationsExperience.tsx`
+
+### Files Modified
+
+- `components/scenes/BookingExperienceScene.tsx`
+- `components/booking/PaymentConceptStep.tsx`
+- `app/globals.css`
+- `README.md`
+- `BUILD_STATUS.md`
+
+### State and Data Boundaries
+
+- All operations records are fictional constants stored in the local project.
+- Ride assignment and status changes use local React state only.
+- No state is persisted to local storage, cookies, a database, or a remote
+  service.
+- No live availability, dispatch, location, revenue, customer, driver, or
+  payment claims are made.
+
+### Accessibility and Responsive Behavior
+
+- Operations navigation uses semantic buttons and current-page state.
+- Ride filters expose pressed state.
+- Selected rides expose pressed state.
+- Local assignment and status changes are announced through a polite live
+  region.
+- Focus moves to the active operations view heading.
+- Every interactive control retains visible keyboard focus treatment.
+- Mobile layouts prioritize concise metrics, readable ride rows, horizontal
+  filter access, and full-width actions from 320px upward.
+- Tablet and desktop layouts progressively add detail and side-by-side
+  operational context.
+- Reduced-motion preferences remove view-entry motion and perspective effects.
+
+### Dependencies
+
+No dependencies were added. Stage 4 uses the existing React, Next.js, and CSS
+foundations.
+
+### Validation
+
+- `npm run typecheck` — passed with no TypeScript errors
+- `npm run lint` — passed with no warnings or errors
+- `npm run build` — passed using native Next.js 16 and Turbopack
+- Native production output generated successfully under `.next/`
+- Browser pass — completed the full customer flow into Stage 4, opened the
+  command center, selected and assigned a ride, advanced its local status,
+  switched through people and payment views, and reached the growth handoff
+- Responsive browser checks — passed at 390px and 1440px with no horizontal
+  page overflow
+- Browser console — no warnings or errors during the completed flow
+
+The browser pass also exposed an existing Stage 3 sequencing bug: entering the
+payment-authorized phase canceled the timers required to reach confirmation.
+`PaymentConceptStep` now advances each phase with its own short timer, allowing
+the customer experience to complete and transition naturally into Stage 4.
+
+### Explicit Non-Integrations
+
+- No owner authentication added
+- No backend or database added
+- No real dashboard data added
+- No real booking or quote management added
+- No live dispatch added
+- No driver accounts, location, or assignment service added
+- No customer records persisted
+- No revenue or analytics service added
+- No Square API or payment reporting added
+- No notifications, email, or SMS sent
+- No maps, routing, or GPS tracking added
+
+### Next Build Stage
+
+Build the growth-opportunity sequence: airport and event transportation,
+hospitality and referral partnerships, recurring rides, corporate accounts,
+medical transportation, and business billing. Keep those opportunities framed
+as options to evaluate with the owner rather than guaranteed recommendations.

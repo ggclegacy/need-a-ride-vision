@@ -2,18 +2,28 @@
 
 A private, cinematic product-vision experience for Need A Ride LLC.
 
-The current build contains Stage 1 only:
+The current build contains the Stage 1 arrival foundation, the Stage 3
+customer product concept, and the Stage 4 Owner Command Center concept:
 
 - Global design and motion foundations
 - Cinematic environmental background
 - Opening arrival scene
 - Entry transition
-- Temporary opportunity placeholder
 - Lightweight progress and back navigation
 - Responsive and accessibility foundations
+- Guided pickup, destination, timing, and trip-detail flow
+- Deterministic local concept estimate
+- Booking review and Square-inspired demo payment
+- Ride confirmation, status, and communication previews
+- Executive pullback into a local operations demonstration
+- Owner overview with schedule, attention queue, and sample metrics
+- Interactive ride board with assignment and status controls
+- Driver readiness and customer relationship previews
+- Connected payment visibility and reporting concepts
+- Growth-opportunity handoff for the next build stage
 
-Future quote, payment, operations, growth, roadmap, and intake experiences are
-not implemented in this stage.
+No live quote, payment, map, booking, dispatch, driver, messaging,
+customer-data, analytics, or backend services are implemented.
 
 ## Local development
 
